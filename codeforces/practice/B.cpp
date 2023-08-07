@@ -1,0 +1,112 @@
+// Problem: B. The Forbidden Permutation
+// Contest: Codeforces - Codeforces Round 848 (Div. 2)
+// URL: https://www.codeforces.com/problemset/problem/1778/B
+// Memory Limit: 256 MB
+// Time Limit: 2000 ms
+// written by : Tesla
+// in 1:26pm 23/6/2023
+// Powered by CP Editor (https://cpeditor.org)
+/*
+ أَحَسِبَ النَّاسُ أَن يُتْرَكُوا أَن يَقُولُوا آمَنَّا وَهُمْ لَا يُفْتَنُونَ ۝ وَلَقَدْ فَتَنَّا الَّذِينَ مِن قَبْلِهِمْ فَلَيَعْلَمَنَّ اللَّهُ الَّذِينَ صَدَقُوا وَلَيَعْلَمَنَّ الْكَاذِبِينَ ۝
+ */
+#include <bits/stdc++.h>
+// I / O
+#define Ali_Hossam ios_base::sync_with_stdio(0), cin.tie(0), cout.tie(0);
+#define oldIO                         \
+    freopen("input.txt", "r", stdin); \
+    freopen("output.txt", "w", stdout);
+#define testCase     \
+    int testCase;    \
+    cin >> testCase; \
+    while (testCase--)
+#define sp " "
+#define el '\n'
+#define interactive cout.flush();
+using namespace std;
+#define value \
+    ll val;   \
+    cin >> val;
+#define fixed(n) fixed << setprecision(n)
+#define mod 1000000007
+#define PI 3.1415926535897932384626433832795l
+
+// STLs
+#define all(n) n.begin(), n.end()
+#define foreach(v1) for (auto &i : v1)
+#define pq priority_queue
+#define rall(n) n.rbegin(), n.rend()
+
+// bitmasks
+/*
+Number of leading zeroes: __builtin_clz(x)
+Number of trailing zeroes : __builtin_ctz(x)
+Number of 1-bits: __builtin_popcount(x)
+last one : __lg()
+ */
+
+// data
+// ~
+using ll = long long;
+using ld = long double;
+using str = string;
+#define ull unsigned long long
+#define f first
+#define s second
+#define endstr string::npos
+const ll N = 1'000'000'000'000L;
+const ll sz = 2e5 + 5;
+ll gcd(ll a, ll b)
+{
+    return b == 0 ? a : gcd(b, a % b);
+}
+ll lcm(ll a, ll b) { return (a / gcd(a, b)) * b; }
+ll addMod(ll x, ll y, ll m) { return ((x % m) + (y % m)) % m; }
+ll minsMod(ll x, ll y, ll m) { return ((x % m) - (y % m)) % m; }
+ll prodMod(ll x, ll y, ll m) { return ((x % m) * (y % m)) % m; }
+ll fastPowerMod(ll x, ll n, ll m)
+{
+    if (n == 0)
+        return 1 % m;
+    else if (n & 1)
+        return prodMod(x, fastPowerMod(x, n - 1, m), m);
+    else
+        return fastPowerMod((x * x) % m, n / 2, m);
+}
+template<typename T> void chkmin(T& x, T y) {if(x > y) x = y;}
+template<typename T> void chkmax(T& x, T y) {if(x < y) x = y;}
+ll n, k, m;
+ll i, j, i1; // for iterations
+
+void doYourJop()
+{
+    cin >> n >> m >> k ;
+    unordered_map<int,int>idx;
+    for(int i = 1 , val; i <= n ; i ++)
+    	cin >> val , idx[val] = i ;
+    vector<int>v(m) ;
+    foreach(v)
+    	cin >> i ;
+    ll ans = INT_MAX ;
+    for(int i = 1 ; i < m ; i ++)
+	{
+		if(!(idx[v[i]] > idx[v[i - 1]] and idx[v[i]] <= idx[v[i - 1]] + k))
+		{
+			ans = 0 ;
+			break ;
+		}
+		ll dis = idx[v[i]] - idx[v[i - 1]];
+		ans = min(ans,dis) ;
+		ll sw = k - dis + 1 ;
+		if(((idx[v[i - 1]] - 1) + (n - idx[v[i]])) >= sw)
+			ans = min(ans,sw) ;
+			
+	}
+    cout << ans << el ;
+}
+int main()
+{
+    Ali_Hossam
+    testCase
+      doYourJop();
+    return 0;
+}
