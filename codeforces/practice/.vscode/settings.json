@@ -2,6 +2,9 @@
     "cph.general.onceMaintainerMessage": false,
     "files.associations": {
         "iostream": "cpp",
-        "ostream": "cpp"
-    }
+        "ostream": "cpp",
+        "cstdlib": "cpp",
+        "functional": "cpp"
+    },
+    "C_Cpp.errorSquiggles": "disabled"
 }
