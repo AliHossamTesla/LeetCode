@@ -15,7 +15,6 @@ int32_t main()
             s = (s + 1)/2 - 1 ;
             ans = min(ans,d + s) ;
         }
-
         cout << ans << endl ;
     }
 }
