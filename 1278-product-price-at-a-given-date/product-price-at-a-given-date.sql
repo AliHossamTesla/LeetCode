@@ -1,36 +1,32 @@
-# Write your MySQL query statement below
-WITH ct AS (
+WITH latest_prices AS (
     SELECT 
         product_id, 
-        MAX(change_date) AS max_change_date
+        new_price,
+        ROW_NUMBER() OVER (PARTITION BY product_id ORDER BY change_date DESC) AS rn
     FROM 
         Products
     WHERE 
         change_date <= '2019-08-16'
-    GROUP BY 
-        product_id
-), pp AS(
-    SELECT p.*
-    FROM 
-        Products p
-        JOIN 
-    ct ON p.product_id = ct.product_id AND p.change_date = ct.max_change_date
 )
 SELECT 
     product_id,
-    new_price price 
+    new_price AS price
 FROM 
-    pp
-    UNION
-SELECT
+    latest_prices
+WHERE 
+    rn = 1
+UNION
+SELECT 
     product_id,
     10 AS price
-FROM
+FROM 
     Products
 WHERE 
     product_id NOT IN (
         SELECT 
             product_id
-        FROM
-            pp
-    )
+        FROM 
+            latest_prices
+        WHERE 
+            rn = 1
+    );
