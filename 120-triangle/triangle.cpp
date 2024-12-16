@@ -13,7 +13,6 @@ public:
                 }
                 if(j) ndp[j] = min(ndp[j], t[i][j] + dp[j - 1]) ;
             }
-            dp = vector<int>(m) ;
             dp = ndp ;
         }
         return *min_element(begin(dp), end(dp)) ;
