@@ -23,7 +23,7 @@ public:
         for(auto s : words){
             insert(s) ;
         }
-         int dx[]{1,0,-1,0}, dy[]{0,-1,0,1} ;
+        int dx[]{1,0,-1,0}, dy[]{0,-1,0,1} ;
         int n = a.size(), m =  a[0].size() ;
         vector<string>ans ;
         vector<vector<bool>>vis(n, vector<bool>(m, false)) ;
@@ -32,14 +32,13 @@ public:
             return i >= 0 && i < n && j >= 0 && j < m ;
         };
         
-        unordered_map<string, bool>mp ;
         function<void(int, int, Node *, string)> floodfill = [&](int i, int j, Node *r, string s){
             s.push_back(a[i][j]) ;
             r = r->ch[a[i][j] - 'a'] ;
             if(r == nullptr || vis[i][j]) return ;
-            if(r->is_word && mp.count(s) == 0){
+            if(r->is_word){
                 ans.push_back(s) ;
-                mp[s] = true ;
+                r->is_word = false ;
             }
             
             vis[i][j] = true ;
@@ -52,7 +51,6 @@ public:
         
         for(int i = 0 ; i < n ; i ++){
             for(int j = 0 ; j < m ; j ++){
-                vis = vector<vector<bool>>(n, vector<bool>(m, false)) ;
                 floodfill(i, j, root, "") ;
             }
         }
