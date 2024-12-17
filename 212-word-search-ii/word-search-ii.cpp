@@ -26,27 +26,27 @@ public:
         int dx[]{1,0,-1,0}, dy[]{0,-1,0,1} ;
         int n = a.size(), m =  a[0].size() ;
         vector<string>ans ;
-        vector<vector<bool>>vis(n, vector<bool>(m, false)) ;
         
         auto valid = [&](int i, int j){
             return i >= 0 && i < n && j >= 0 && j < m ;
         };
         
         function<void(int, int, Node *, string)> floodfill = [&](int i, int j, Node *r, string s){
+            if(a[i][j] == '#'|| r->ch[a[i][j] - 'a'] == nullptr) return ;
             s.push_back(a[i][j]) ;
             r = r->ch[a[i][j] - 'a'] ;
-            if(r == nullptr || vis[i][j]) return ;
             if(r->is_word){
                 ans.push_back(s) ;
                 r->is_word = false ;
             }
             
-            vis[i][j] = true ;
+            char prev = a[i][j] ;
+            a[i][j] = '#' ;
             for(int di = 0 ; di < 4 ; di ++) if(valid(i + dx[di], j + dy[di])){
                 int ni = i + dx[di], nj = j + dy[di] ;
                 floodfill(ni, nj, r, s) ;
             }
-            vis[i][j] = false ;
+            a[i][j] = prev ;
         };
         
         for(int i = 0 ; i < n ; i ++){
