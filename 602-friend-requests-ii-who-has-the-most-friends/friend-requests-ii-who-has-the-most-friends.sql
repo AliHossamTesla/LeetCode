@@ -1,8 +1,5 @@
 # Write your MySQL query statement below
-SELECT 
-    id, 
-    COUNT(*) AS num 
-FROM (
+WITH t AS(
     SELECT 
         requester_id id,
         accepter_id rec
@@ -14,7 +11,12 @@ FROM (
         requester_id rec
     FROM 
         RequestAccepted
-) AS t
+)
+SELECT 
+    id, 
+    COUNT(*) AS num 
+FROM 
+    t
 GROUP BY id
 ORDER BY num DESC
 LIMIT 1
