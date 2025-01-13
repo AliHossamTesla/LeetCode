@@ -5,13 +5,9 @@ class Solution {
             cnt[c - 'a'] ++ ;
         }
         int ans = 0 ;
-        for(int i = 0 ; i < 26 ; i ++){
-            System.out.println(cnt[i]) ;
-            if(cnt[i] >= 3){
-                if(cnt[i] % 2 == 0) ans += 2 ;
-                else ans += 1 ;
-            }
-            else ans += cnt[i] ;
+        for(int i = 0 ; i < 26 ; i ++)if(cnt[i] > 0){
+            if(cnt[i] % 2 == 0) ans += 2 ;
+            else ans += 1 ;
         }
         return ans ;
     }
