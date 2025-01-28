@@ -7,7 +7,7 @@ class Solution {
         boolean[][] vis = new boolean[n][m] ;
         int ans = 0;
         for(int i = 0 ; i < n ; i ++){
-            for(int j = 0 ; j < m ; j ++){
+            for(int j = 0 ; j < m ; j ++) if(g[i][j] > 0){
                 ans = Math.max(ans, floodfill(i, j, g, vis)) ;
             }
         }
