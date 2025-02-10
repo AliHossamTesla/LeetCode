@@ -5,7 +5,6 @@ class Solution:
             if i.isalpha():
                 st.append(i)
             else:
-                if st: 
-                    st.pop()
+                st.pop()
         
         return ''.join(st)  
