@@ -2,30 +2,14 @@ import java.util.*;
 
 class Solution {
     public int maximumSum(int[] nums) {
-        // Map to store numbers grouped by their digit sums
-        Map<Integer, List<Integer>> mp = new HashMap<>();
-
-        // Group numbers by their digit sums
-        for (int num : nums) {
-            int sum = sumOfDigits(num);
-            mp.computeIfAbsent(sum, k -> new ArrayList<>()).add(num);
-        }
+        int[] max = new int[100];
 
         int ans = -1;
-
-        // Iterate through each group in the map
-        for (List<Integer> group : mp.values()) {
-            // Skip groups with fewer than 2 numbers
-            if (group.size() < 2) continue;
-
-            // Sort the group in descending order
-            group.sort(Collections.reverseOrder());
-
-            // Calculate the sum of the two largest numbers in the group
-            int sum = group.get(0) + group.get(1);
-            ans = Math.max(ans, sum);
+        for (int num : nums) {
+            int sum = sumOfDigits(num);
+            if(max[sum] != 0) ans = Math.max(ans, max[sum] + num);
+            max[sum] = Math.max(max[sum], num);
         }
-
         return ans;
     }
 
