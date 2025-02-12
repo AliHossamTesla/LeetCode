@@ -1,27 +1,41 @@
-class Solution{
+import java.util.*;
+
+class Solution {
     public int maximumSum(int[] nums) {
-        Map<Integer, List<Integer>>mp = new HashMap<>();
-        for(int i : nums){
-            // mp.get().add(i);
-            mp.computeIfAbsent(sumOfDigits(i), k -> new ArrayList<>()).add(i);
+        // Map to store numbers grouped by their digit sums
+        Map<Integer, List<Integer>> mp = new HashMap<>();
+
+        // Group numbers by their digit sums
+        for (int num : nums) {
+            int sum = sumOfDigits(num);
+            mp.computeIfAbsent(sum, k -> new ArrayList<>()).add(num);
         }
-        int ans = -1 ;
-        for(List<Integer> cr : mp.values()){
-            if(cr.size() <= 1) continue ;
-            Collections.sort(cr);
-            int res = cr.getLast();
-            cr.removeLast();
-            res += cr.getLast();
-            ans = Math.max(ans, res);
+
+        int ans = -1;
+
+        // Iterate through each group in the map
+        for (List<Integer> group : mp.values()) {
+            // Skip groups with fewer than 2 numbers
+            if (group.size() < 2) continue;
+
+            // Sort the group in descending order
+            group.sort(Collections.reverseOrder());
+
+            // Calculate the sum of the two largest numbers in the group
+            int sum = group.get(0) + group.get(1);
+            ans = Math.max(ans, sum);
         }
-        return ans ;
+
+        return ans;
     }
-    private int sumOfDigits(int a){
-        int cr = 0 ;
-        while(a > 0){
-            cr += a % 10 ;
-            a /= 10 ;
+
+    // Helper method to calculate the sum of digits of a number
+    private int sumOfDigits(int num) {
+        int sum = 0;
+        while (num > 0) {
+            sum += num % 10;
+            num /= 10;
         }
-        return cr ;
+        return sum;
     }
 }
