@@ -1,44 +1,29 @@
-/**
- * Definition for a binary tree node.
- * public class TreeNode {
- *     int val;
- *     TreeNode left;
- *     TreeNode right;
- *     TreeNode() {}
- *     TreeNode(int val) { this.val = val; }
- *     TreeNode(int val, TreeNode left, TreeNode right) {
- *         this.val = val;
- *         this.left = left;
- *         this.right = right;
- *     }
- * }
- */
+import java.util.HashMap;
+import java.util.Map;
+
 class Solution {
-    private int n;
-    
+    private Map<Integer, Integer> postIndexMap;
+    private int preIndex;
+
     public TreeNode constructFromPrePost(int[] preorder, int[] postorder) {
-        n = preorder.length;
-        return construct(0, n - 1, 0, n - 1, preorder, postorder);
+        postIndexMap = new HashMap<>();
+        for (int i = 0; i < postorder.length; i++) {
+            postIndexMap.put(postorder[i], i); // Map value to its index in postorder
+        }
+        preIndex = 0;
+        return construct(preorder, postorder, 0, postorder.length - 1);
     }
 
-    private TreeNode construct(int l, int r, int lx, int rx, int[] pre, int[] pos) {
-        if (l > r || lx > rx) return null;
-        if (l == r) return new TreeNode(pre[l]);
+    private TreeNode construct(int[] preorder, int[] postorder, int left, int right) {
+        if (left > right) return null;
 
-        TreeNode head = new TreeNode(pre[l]);
-        int rx_ = lx;
-        int r_ = l + 1;
+        TreeNode root = new TreeNode(preorder[preIndex++]);
+        if (left == right) return root; // Leaf node
 
-        while (pre[l + 1] != pos[rx_]) {
-            rx_++;
-            r_++;
-        }
+        int leftChildIndex = postIndexMap.get(preorder[preIndex]);
+        root.left = construct(preorder, postorder, left, leftChildIndex);
+        root.right = construct(preorder, postorder, leftChildIndex + 1, right - 1);
 
-        head.left = construct(l + 1, r_, lx, rx_, pre, pos);
-        if (r_ + 1 <= r) { // Ensure bounds are valid
-            head.right = construct(r_ + 1, r, rx_ + 1, rx, pre, pos);
-        }
-
-        return head;
+        return root;
     }
 }
