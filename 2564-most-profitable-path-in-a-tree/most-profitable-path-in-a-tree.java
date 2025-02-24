@@ -26,14 +26,11 @@ class Solution {
         amount[bob] = 0;
         dfs(bob, -1, dist, amount, adj, 1);
         ans = Integer.MIN_VALUE;
-        for(int i : amount)
-             System.out.print(i + " ");
         prefDfs(0, -1, amount, adj, 0);
         return ans;
     }
 
     private boolean dfs(int u, int p, int[] dist, int[] amount, List<Integer>[] adj, int cnt) {
-        System.out.println(u + " " + p + " " + cnt + " " + dist[u]);
         if (u == 0) {
             return true;
         }
@@ -42,7 +39,7 @@ class Solution {
         }
         for (int v : adj[u])
             if (v != p) {
-                if (dfs(v, u, dist, amount, adj, cnt + 1)){
+                if (dfs(v, u, dist, amount, adj, cnt + 1)) {
                     if (cnt == dist[v]) {
                         amount[v] /= 2;
                     } else if (cnt < dist[v]) {
