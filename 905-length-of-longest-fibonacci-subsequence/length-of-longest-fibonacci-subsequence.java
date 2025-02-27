@@ -4,8 +4,8 @@ class Solution {
         int[][] dp = new int[n][n];
         int ans = 0 ;
         Map<Integer, Integer> idx = new HashMap<>();
-        for(int i = 0 ; i < n ;i ++) idx.put(a[i], i);
         for(int i = 0 ; i < n ; i ++){
+            idx.put(a[i], i);
             for(int j = 0 ; j < i ;j ++){
                 dp[i][j] = 2 ;
                 int k = idx.getOrDefault(a[i] - a[j], -1);
