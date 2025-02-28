@@ -23,22 +23,19 @@ class Node {
 
 class Solution {
     public Node connect(Node root) {
-        List<List<Node>> lev = new ArrayList<>();
-        dfs(root, lev, 0);
-        for(int i = 0 ; i < lev.size() ; i ++){
-            for(int j = 0 ; j < lev.get(i).size() - 1; j ++){
-                lev.get(i).get(j).next = lev.get(i).get(j + 1);
-            }
-        }
+        if(root == null) return null ;
+        dfs(root);
         return root ;
     }
-    private void dfs(Node r, List<List<Node>> lev, int cnt){
+    private void dfs(Node r){
         if(r == null) return ;
-        // System.out.println(cnt);
-        // System.out.println("val : " + r.val);
-        if(cnt >= lev.size()) lev.add(new ArrayList<>());
-        lev.get(cnt).add(r);
-        dfs(r.left, lev, cnt + 1);
-        dfs(r.right, lev, cnt + 1);
+        if(r.left != null){
+            r.left.next = r.right;
+            if(r.next != null){
+                r.right.next = r.next.left;
+            }
+        }
+        dfs(r.left);
+        dfs(r.right);
     }
 }
