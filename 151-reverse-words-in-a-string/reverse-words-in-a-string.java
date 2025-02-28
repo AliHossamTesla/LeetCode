@@ -1,7 +1,7 @@
 class Solution {
     public String reverseWords(String s) {
         int n = s.length();
-        Stack<String>cr = new Stack<>();
+        ArrayDeque<String>cr = new ArrayDeque<>();
         for(int i = 0 ; i < n ; i ++){
             while(i < n && s.charAt(i) == ' ') i ++;
             StringBuilder tm = new StringBuilder();
@@ -14,7 +14,7 @@ class Solution {
         }
         StringBuilder ans = new StringBuilder();
         while(!cr.isEmpty()){
-            ans.append(cr.pop());
+            ans.append(cr.pollLast());
             if(!cr.isEmpty()){
                 ans.append(" ");
             }
