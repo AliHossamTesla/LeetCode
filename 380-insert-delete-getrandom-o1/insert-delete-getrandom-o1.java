@@ -1,5 +1,5 @@
 class RandomizedSet {
-    HashMap<Integer, Integer>mp ;
+    Map<Integer, Integer>mp ;
     List<Integer>a ;
     Random rand ;
     public RandomizedSet() {
