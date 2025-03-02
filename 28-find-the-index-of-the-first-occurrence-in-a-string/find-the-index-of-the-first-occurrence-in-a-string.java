@@ -14,7 +14,8 @@ class Solution {
         return -1 ;
     }
     public int strStr(String haystack, String needle) {
-        int m = needle.length();
-        return KMP((needle + '#' + haystack).toCharArray(), m);
+        // int m = needle.length();
+        // return KMP((needle + '#' + haystack).toCharArray(), m);
+        return haystack.indexOf(needle);
     }
 }
