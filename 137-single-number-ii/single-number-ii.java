@@ -1,13 +1,12 @@
 class Solution {
-    public int singleNumber(int[] nums) {
-        int ans = 0 ;
-        for(int i = 0 ; i < 32 ; i ++){
-            int cnt = 0 ;
-            for(int j : nums){
-                if((j >> i & 1) == 1) cnt ++ ;
+    public int singleNumber(int[] a) {
+        int n = a.length;
+        Arrays.sort(a);
+        for(int i = 1; i < n ; i += 3){
+            if(a[i] != a[i - 1]){
+                return a[i - 1];
             }
-            if(cnt % 3 == 1) ans |= (1 << i);
         }
-        return ans ;
+        return a[n - 1];
     }
 }
