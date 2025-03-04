@@ -21,17 +21,10 @@ class Solution {
     }
     private int calc(TreeNode root){
         if(root == null) return 0 ;
-        int l = calc(root.left);
-        int r = calc(root.right);
+        int l = Math.max(0, calc(root.left));
+        int r = Math.max(0, calc(root.right));
         int v = root.val ;
-        ans = max(ans, l + r + v, v + max(l, r), v);
-        return max(v + max(l, r), v);
-    }
-    private int max(int...arg){
-        int mx = Integer.MIN_VALUE ;
-        for(int i : arg){
-            mx = Math.max(i, mx);
-        }
-        return mx ;
+        ans = Math.max(ans, l + r + v);
+        return v + Math.max(l, r);
     }
 }
