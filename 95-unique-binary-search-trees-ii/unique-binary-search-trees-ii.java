@@ -14,8 +14,9 @@
  * }
  */
 class Solution {
+    private Map<String, List<TreeNode>> memo;
     public List<TreeNode> generateTrees(int n) {
-        // List<TreeNode> ans = new ArrayList<>();
+        memo = new HashMap<>();
         return calc(1, n);
     }
     private List<TreeNode> calc(int st, int ed){
@@ -24,10 +25,9 @@ class Solution {
             ans.add(null);
             return ans;
         }
-        if(st == ed){
-            List<TreeNode> ans = new ArrayList<>();
-            ans.add(new TreeNode(st));
-            return ans;
+        String key = st + "," + ed;
+        if (memo.containsKey(key)) {
+            return memo.get(key);
         }
         List<TreeNode> ans = new ArrayList<>();
         for(int i = st ; i <= ed ; i ++){
@@ -39,6 +39,7 @@ class Solution {
                 }
             }
         }
+        memo.put(key, ans);
         return ans ;
     }
 }
