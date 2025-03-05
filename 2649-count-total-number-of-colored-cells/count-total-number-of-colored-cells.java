@@ -1,10 +1,9 @@
 class Solution {
     public long coloredCells(int n) {
-        long[] dp = new long[n + 1] ;
-        dp[1] = 1 ;
+        long ans = 1 ;
         for(int i = 2, j = 4; i <= n ; i ++, j += 4){
-            dp[i] = dp[i - 1] + j ;
+            ans += j ;
         }
-        return dp[n];
+        return ans;
     }
 }
