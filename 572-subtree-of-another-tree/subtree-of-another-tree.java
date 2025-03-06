@@ -18,9 +18,17 @@ class Solution {
         // Serialize both trees
         String rootStr = serialize(a);
         String subRootStr = serialize(b);
-
-        // Check if subRootStr is a substring of rootStr
-        return rootStr.contains(subRootStr);
+        char[] aa = (subRootStr + '#' + rootStr).toCharArray();
+        int n = aa.length ;
+        int[] pi = new int[n];
+        for(int i = 1 ; i < n ; i ++){
+            int j = pi[i - 1];
+            while(j > 0 && aa[i] != aa[j]) j = pi[j - 1];
+            if(aa[i] == aa[j]) j ++ ;
+            if(j == subRootStr.length()) return true ;
+            pi[i] = j ;
+        }
+        return false ;
     }
     private String serialize(TreeNode node) {
         // Use StringBuilder for efficient string concatenation
