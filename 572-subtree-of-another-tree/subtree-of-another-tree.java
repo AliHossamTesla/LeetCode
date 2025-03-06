@@ -15,13 +15,28 @@
  */
 class Solution {
     public boolean isSubtree(TreeNode a, TreeNode b) {
-        if(a == null || b == null) return false ;
-        if(isSameTree(a, b)) return true ;
-        return isSubtree(a.left, b) || isSubtree(a.right, b);
+        // Serialize both trees
+        String rootStr = serialize(a);
+        String subRootStr = serialize(b);
+
+        // Check if subRootStr is a substring of rootStr
+        return rootStr.contains(subRootStr);
     }
-    public boolean isSameTree(TreeNode a, TreeNode b){
-        if(a == null && b == null) return true ;
-        if(a == null || b == null || a.val != b.val) return false;
-        return isSameTree(a.left, b.left) && isSameTree(a.right, b.right);
+    private String serialize(TreeNode node) {
+        // Use StringBuilder for efficient string concatenation
+        StringBuilder sb = new StringBuilder();
+        serializeHelper(node, sb);
+        return sb.toString();
+    }
+
+    private void serializeHelper(TreeNode node, StringBuilder sb) {
+        if (node == null) {
+            sb.append("#"); // Use '#' to represent null nodes
+            return;
+        }
+        // Pre-order traversal: root, left, right
+        sb.append(",").append(node.val).append(","); // Add delimiters
+        serializeHelper(node.left, sb);
+        serializeHelper(node.right, sb);
     }
 }
