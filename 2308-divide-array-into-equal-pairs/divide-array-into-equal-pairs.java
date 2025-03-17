@@ -1,11 +1,11 @@
 class Solution {
     public boolean divideArray(int[] nums) {
-        Arrays.sort(nums);
-        for(int i = 0 ; i < nums.length; i += 2){
-            if(nums[i] != nums[i + 1]){
-                return false ;
-            }
+        int[] cnt = new int[501] ;
+        int ct = 0 ;
+        for(int i : nums){
+            cnt[i] ++ ;
         }
+        for(int i = 0 ; i < 501 ; i ++) if(cnt[i] % 2 != 0) return false ;
         return true ;
     }
 }
