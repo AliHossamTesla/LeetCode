@@ -1,51 +1,39 @@
+import java.util.*;
+
 class Solution {
     public List<String> findAllRecipes(String[] recipes, List<List<String>> ingredients, String[] supplies) {
-        Map<String, Integer> enc = new HashMap<>();
-        int cr = 0 ;
-        List<String> name = new ArrayList<>();
-        for(String s : recipes) if(!enc.containsKey(s)){
-            enc.put(s, cr++);
-            name.add(s);
+        Map<String, Integer> inDegree = new HashMap<>();
+        Map<String, List<String>> graph = new HashMap<>();
+        Set<String> available = new HashSet<>(Arrays.asList(supplies));
+
+        // Initialize graph and in-degree
+        for (int i = 0; i < recipes.length; i++) {
+            String recipe = recipes[i];
+            inDegree.put(recipe, ingredients.get(i).size()); // Count required ingredients
+
+            for (String ingredient : ingredients.get(i)) {
+                graph.computeIfAbsent(ingredient, k -> new ArrayList<>()).add(recipe);
+            }
         }
-        int cnt = cr ;
-        for(List<String> ss : ingredients){
-            for(String s : ss){
-                if(!enc.containsKey(s)){
-                    enc.put(s, cr++);
-                    name.add(s);
+
+        // Process queue with available supplies
+        Queue<String> queue = new LinkedList<>(available);
+        List<String> result = new ArrayList<>();
+
+        while (!queue.isEmpty()) {
+            String item = queue.poll();
+            if (inDegree.containsKey(item)) { // Only add recipes
+                result.add(item);
+            }
+            if (graph.containsKey(item)) {
+                for (String recipe : graph.get(item)) {
+                    inDegree.put(recipe, inDegree.get(recipe) - 1);
+                    if (inDegree.get(recipe) == 0) {
+                        queue.add(recipe);
+                    }
                 }
             }
         }
-        for(String s : supplies){
-            if(!enc.containsKey(s)){
-                    enc.put(s, cr++);
-                    name.add(s);
-            }
-        }
-        int[] deg = new int[cr] ;
-        int n = recipes.length ;
-        List<Integer>[] adj = new List[cr];
-        for(int i = 0 ; i < cr ; i ++) adj[i] = new ArrayList<>();
-        for(int i = 0 ; i < n ; i ++){
-            for(String s : ingredients.get(i)){
-                adj[enc.get(s)].add(enc.get(recipes[i]));
-                deg[enc.get(recipes[i])] ++ ;
-            }
-        }
-        List<String> ans = new ArrayList<>();
-        ArrayDeque<Integer> q = new ArrayDeque<>();
-        for(String s : supplies){
-            q.add(enc.get(s));
-        }
-        while(!q.isEmpty()){
-            int u = q.poll();
-            if(u < cnt) ans.add(name.get(u));
-            for(int v : adj[u]){
-                if(--deg[v] == 0){
-                    q.add(v);
-                }
-            }
-        }
-        return ans ;
+        return result;
     }
 }
