@@ -1,16 +1,19 @@
 class Solution {
 public:
     int countLargestGroup(int n) {
-        map<int, int>mp1, mp2 ;
+        int cnt[40] = {}, cnt1[1000] ;
         for(int i = 1 ; i <= n ; i ++){
             int sum = 0, tmp = i;
             while(tmp){
                 sum += tmp % 10 ;
                 tmp /= 10 ;
             }
-            mp1[sum] ++ ;
+            cnt[sum] ++ ;
         }
-        for(auto [k, v] : mp1) mp2[v] ++ ;
-        return mp2.rbegin()->second ;
+        for(int i = 0 ; i < 40 ; i ++)
+            if(cnt[i]) cnt1[cnt[i]] ++ ;
+        for(int i = 999 ; i >= 0 ; i --)
+            if(cnt1[i] != 0) return cnt1[i] ; 
+        return -1 ;
     }
 };
