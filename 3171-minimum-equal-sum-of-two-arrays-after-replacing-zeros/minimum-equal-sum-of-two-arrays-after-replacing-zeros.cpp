@@ -1,6 +1,7 @@
 class Solution {
 public:
     long long minSum(vector<int>& a, vector<int>& b) {
+        ios_base::sync_with_stdio(0); cin.tie(0); cout.tie(0);
         long long l = 0, r = 0 ;
         bool x = 0, y = 0 ;
         for(int i = 0 ; i < a.size() ; i ++){
