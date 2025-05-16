@@ -3,7 +3,7 @@ public:
     vector<string> getWordsInLongestSubsequence(vector<string>& a, vector<int>& b) {
         int n = a.size() ;
         vector<int>dp(n, 1), par(n, -1);
-        auto dist = [&](string s, string t){
+        auto dist = [&](string& s, string& t){
             int cnt = 0 ;
             for(int i = 0 ; i < s.size() ; i ++){
                 cnt += (s[i] != t[i]) ;
@@ -17,10 +17,10 @@ public:
                 && dist(a[i], a[j]) == 1 && dp[j] + 1 > dp[i]){
                     dp[i] = dp[j] + 1 ;
                     par[i] = j ;
-                    if(dp[i] > dp[st]){
-                        st = i ;
-                    }
                 }
+            }
+            if(dp[i] > dp[st]){
+                st = i ;
             }
         }
         vector<string> ans;
