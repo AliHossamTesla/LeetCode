@@ -4,7 +4,7 @@ public:
         ios_base::sync_with_stdio(0); cin.tie(0); cout.tie(0);
         int n = a.size() ;
         vector<int>b(n + 1) ;
-        for(auto v : queries){
+        for(const auto& v : queries){
             b[v[1] + 1] -- ;
             b[v[0]] ++ ;
         }
