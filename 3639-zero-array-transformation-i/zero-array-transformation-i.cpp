@@ -9,8 +9,7 @@ public:
         }
         for(int i = 0 ; i < a.size() ; i ++){
             if(i) b[i] += b[i - 1] ;
-            a[i] -= b[i] ;
-            if(a[i] > 0) return false ;
+            if(a[i] > b[i]) return false ;
         }
         return true ;
     }
