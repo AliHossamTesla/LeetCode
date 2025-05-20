@@ -1,0 +1,16 @@
+class Solution {
+public:
+    bool isZeroArray(vector<int>& a, vector<vector<int>>& queries) {
+        vector<int>b(a.size() + 1) ;
+        for(auto v : queries){
+            b[v[1] + 1] -- ;
+            b[v[0]] ++ ;
+        }
+        for(int i = 0 ; i < a.size() ; i ++){
+            if(i) b[i] += b[i - 1] ;
+            a[i] -= b[i] ;
+            if(a[i] > 0) return false ;
+        }
+        return true ;
+    }
+};
