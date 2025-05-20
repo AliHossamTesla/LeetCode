@@ -7,10 +7,10 @@ public:
             b[v[1] + 1] -- ;
             b[v[0]] ++ ;
         }
-        for(int i = 0 ; i < a.size() ; i ++){
-            if(i) b[i] += b[i - 1] ;
+        for(int i = 1 ; i < a.size() ; i ++){
+            b[i] += b[i - 1] ;
             if(a[i] > b[i]) return false ;
         }
-        return true ;
+        return b[0] >= a[0] ;
     }
 };
