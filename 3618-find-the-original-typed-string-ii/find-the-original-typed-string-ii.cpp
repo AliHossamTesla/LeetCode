@@ -1,48 +1,45 @@
 class Solution {
 public:
-    int possibleStringCount(string word, int k) {
-        int n = word.size(), cnt = 1;
-        vector<int> freq;
-        for (int i = 1; i < n; ++i) {
-            if (word[i] == word[i - 1]) {
-                ++cnt;
-            } else {
-                freq.push_back(cnt);
-                cnt = 1;
+    int possibleStringCount(string s, int k) {
+        // dp[i][j] number of ways to to construct a string 
+        // using the first i+1 elements of freq such that 
+        // the total constructed length is j
+        // dp[i][j] = sum(dp[i - 1][j - k]) for 1 <= k <= a[i] 
+        // dp[i - 1][j - 1] + dp[i - 1][j - 2] + ... + dp[i - 1][j - a[i]] -> 1
+        // let say prf[i - 1][j] = sum(dp[i - 1][k]) for 1 <= k <= j
+        // from 1 dp[i][j] = prf[i - 1][j - 1] - prf[i - 1][j - a[i] - 1] 
+        const long long MOD = 1e9 + 7 ;
+        vector<long long>a ;
+        long long cnt = 1 ;
+        for(int i = 1 ; i < s.size() ; i ++){
+            if(s[i] == s[i - 1]) cnt ++ ;
+            else{
+                a.push_back(cnt) ;
+                cnt = 1 ;
             }
         }
-        freq.push_back(cnt);
-
-        int ans = 1;
-        for (int o : freq) {
-            ans = static_cast<long long>(ans) * o % mod;
+        a.push_back(cnt) ;
+        long long ans = 1 ;
+        for(long long i : a){
+            ans = (ans * i) % MOD ;
         }
-
-        if (freq.size() >= k) {
-            return ans;
-        }
-
-        vector<int> f(k), g(k, 1);
-        f[0] = 1;
-        for (int i = 0; i < freq.size(); ++i) {
-            vector<int> f_new(k);
-            for (int j = 1; j < k; ++j) {
-                f_new[j] = g[j - 1];
-                if (j - freq[i] - 1 >= 0) {
-                    f_new[j] = (f_new[j] - g[j - freq[i] - 1] + mod) % mod;
-                }
+        if(a.size() >= k) return ans ;
+        vector<long long> dp(k), f(k, 1);
+        dp[0] = 1 ;
+        for(int i = 0 ; i < a.size() ; i ++){
+            vector<long long>ndp(k), nf(k) ;
+            for(int j = 1 ; j < k ; j ++){
+                ndp[j] = f[j - 1];
+                if(j - a[i] - 1 >= 0) 
+                    ndp[j] = (ndp[j] - f[j - a[i] - 1] + MOD)%MOD ;
             }
-            vector<int> g_new(k);
-            g_new[0] = f_new[0];
-            for (int j = 1; j < k; ++j) {
-                g_new[j] = (g_new[j - 1] + f_new[j]) % mod;
+            nf[0] = ndp[0] ;
+            for(int j = 1 ; j < k ; j ++){
+                nf[j] = (nf[j - 1] + ndp[j])%MOD ;
             }
-            f = move(f_new);
-            g = move(g_new);
+            dp = move(ndp) ;
+            f = move(nf) ;
         }
-        return (ans - g[k - 1] + mod) % mod;
+        return (ans - f[k - 1] + MOD)%MOD ;
     }
-
-private:
-    static const int mod = 1000000007;
 };
