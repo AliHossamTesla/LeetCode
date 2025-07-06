@@ -9,7 +9,7 @@ public:
     }
     
     void add(int i, int val) {
-        if(--mp[b[i]] == 0) mp.erase(b[i]) ;
+        --mp[b[i]] ;
         b[i] += val ;
         mp[b[i]] ++ ;
     }
@@ -17,9 +17,9 @@ public:
     int count(int tot) {
         int ans = 0 ;
         for(int i = 0 ; i < a.size() ; i ++)
-            if(mp.contains(tot - a[i])){
+            // if(mp.contains(tot - a[i])){
                 ans += mp[tot - a[i]] ;
-            }
+            // }
         return ans ;
     }
 };
