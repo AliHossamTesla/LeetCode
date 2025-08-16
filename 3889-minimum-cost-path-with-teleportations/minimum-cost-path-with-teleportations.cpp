@@ -24,6 +24,7 @@ public:
         for(int t = 1 ; t <= k ; t ++){
             vector<vector<i64>>ndp(n, vector<i64>(m, inf)) ;
             // build suf 
+            // best[idx] = min(best[idx], dp[i][j] where g[i][j] = vls[idx])
             vector<i64>best(vls.size(), inf) ;
             for(int i = 0 ; i < n ; i ++){
                 for(int j = 0 ; j < m ; j ++){
@@ -36,6 +37,8 @@ public:
             }
             for(int i = 0 ; i < n ; i ++){
                 for(int j = 0 ; j < m ; j ++){
+                    // vls[idx] = g[i][j] ;
+                    // dp[t][i][j] = min(dp[t - 1][i][j], best[idx]) ;
                     ndp[i][j] = min(dp[i][j], best[idx(g[i][j])]) ;
                 }
             }
